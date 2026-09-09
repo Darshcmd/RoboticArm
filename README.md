@@ -318,13 +318,6 @@ Stand so all three markers are visible, roughly arm's length from the camera. A 
 | Angles seem offset by a constant | Adjust the 18-degree and 16-degree mounting offsets in the angle solver to match your servo horn installation. |
 | Camera fails to open | Another app is using it, or the index in `VideoStream(src=0)` is wrong. Try `src=1`. |
 
-## Project Origins and Credits
-
-This project is based on "Gesture Controlled 5 DOF Robotic Arm using Computer Vision" by Jingzhou Liu (JasonJZLiu), MIT licensed. This repository extends that work with: the PCA9685 servo driver firmware replacing direct Arduino PWM, the sync-byte framed serial protocol with range checking, EMA smoothing with change-based transmission, the `hsv_tune.py` and `auto_hsv.py` calibration tools, and the `test_serial.py` communication harness.
-
-- Original project: https://github.com/JasonJZLiu/Gesture-Controlled-5-DOF-Robotic-Arm-using-Computer-Vision
-- Demo video: https://www.youtube.com/watch?v=PDEdxRVkMdo
-- 3D-printable STL files and full parts list: https://grabcad.com/library/5-dof-robotic-arm-6
 
 ## License
 
