@@ -1,21 +1,21 @@
-import cv2
-import numpy as np
+import cv2  # webcam plus image ops
+import numpy as np  # array math support
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)  # open default webcam
 
 
-def nothing(arg): pass
+def nothing(arg): pass  # trackbar placeholder callback
 
-#takes an image, and a lower and upper bound
-#returns only the parts of the image in bounds
+# mask image to HSV bounds
+# show only in range pixels
 def only_color(frame, color_ranges, morph):
-    h,s,v,h1,s1,v1 = color_ranges
+    h,s,v,h1,s1,v1 = color_ranges  # unpack trackbar HSV bounds
     # Convert BGR to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # define range of blue color in HSV
     lower = np.array([h,s,v])
     upper = np.array([h1,s1,v1])
-    # Threshold the HSV image to get only blue colors
+    # threshold HSV for target color
     mask = cv2.inRange(hsv, lower, upper)
     #define kernel size (for touching up the image)
     #kernel = np.ones((morph, morph),np.uint8)
@@ -59,9 +59,9 @@ while True:
     k=cv2.waitKey(1)
     if k==27: break
 
-#print calues
+# print values
 print('h,s,v,h1,s1,v1', h,s,v,h1,s1,v1)
 
-#release the video to avoid memory leaks, and close the window
+# release video and close windows
 cap.release()
 cv2.destroyAllWindows()

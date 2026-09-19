@@ -1,18 +1,12 @@
-"""Auto HSV calibration — no GUI needed.
-
-Holds the target marker in front of the camera, captures frames, finds the
-dominant colored cluster in the requested hue family, and computes tight
-lower/upper HSV bounds from the observed percentiles.
-
-Usage: ./venv/bin/python auto_hsv.py yellow
-"""
+"""Auto HSV calibration, no GUI needed.
+Usage: ./venv/bin/python auto_hsv.py yellow"""
 import sys
 import time
 import cv2
 import numpy as np
 
 HUE_FAMILIES = {
-    # name: (hue_lo, hue_hi, min_sat, min_val) — OpenCV hue is 0-179
+    # hue range plus minimum saturation
     'green':  (35, 90, 80, 80),
     'yellow': (12, 45, 140, 100),
     'red':    (0, 10, 140, 100),   # low-red side
@@ -53,18 +47,17 @@ cap.release()
 pix = np.concatenate([f.reshape(-1, 3) for f in frames])
 h_all, s_all, v_all = pix[:, 0], pix[:, 1], pix[:, 2]
 
-# Candidate pixels: hue in family, strongly saturated and bright
+# bright candidate pixels in hue family
 mask = (h_all >= hue_lo) & (h_all <= hue_hi) & (s_all > sat_min) & (v_all > val_min)
 
 count = int(mask.sum())
 print(f'Candidate pixels found: {count}')
 if count < 5000:
-    print('FAILED: not enough colored pixels — bring the marker closer / improve lighting.')
+    print('FAILED: not enough colored pixels - bring the marker closer / improve lighting.')
     sys.exit(2)
 
-# Find the DOMINANT hue cluster (peak of the hue histogram) so background
-# warm tones don't skew the bounds — take +-8 hue around the peak, then
-# re-filter candidates to that band before computing sat/val percentiles.
+# peak of hue histogram wins
+# band plus minus 8 hue
 cand_h = h_all[mask]
 hist, edges = np.histogram(cand_h, bins=hue_hi - hue_lo + 1, range=(hue_lo, hue_hi + 1))
 peak_bin = int(np.argmax(hist))
@@ -92,7 +85,7 @@ v_h = 255
 lower, upper = (h_l, s_l, v_l), (h_h, s_h, v_h)
 print(f'Lower {lower}  Upper {upper}')
 
-# Sanity check: apply bounds and report coverage across a fresh frame
+# sanity check on live frame
 cap = cv2.VideoCapture(0)
 ok, frame = cap.read()
 cap.release()
@@ -103,7 +96,7 @@ if ok:
     coverage = m.mean() / 255 * 100
     print(f'Mask coverage in a live frame: {coverage:.2f}% of image')
     if coverage > 15:
-        print('WARNING: mask covers a lot of the frame — bounds may be too loose.')
+        print('WARNING: mask covers a lot of the frame - bounds may be too loose.')
 
 with open(f'/tmp/hsv_{color}.log', 'w') as f:
     f.write(f'{lower[0]},{lower[1]},{lower[2]},{upper[0]},{upper[1]},{upper[2]}\n')

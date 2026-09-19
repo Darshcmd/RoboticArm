@@ -1,7 +1,5 @@
-// PCA9685 channel sweep — drives channels 0..5 ONE AT A TIME so you can
-// identify which channel is connected to which joint of the arm.
-// Order: ch0 -> ch1 -> ch2 -> ch3 -> ch4 -> ch5 (two sweeps each).
-// LED is ON while a channel is being swept.
+// sweep channels 0 to 5
+// watch arm per channel move
 #include <Adafruit_PWMServoDriver.h>
 #include <Wire.h>
 

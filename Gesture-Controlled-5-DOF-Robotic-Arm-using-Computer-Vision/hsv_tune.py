@@ -1,15 +1,5 @@
-"""HSV calibration tool (improved version of HSV.py).
-
-Usage:
-    ./venv/bin/python hsv_tune.py green
-    ./venv/bin/python hsv_tune.py red
-    ./venv/bin/python hsv_tune.py yellow
-
-- Seeds the trackbars with sensible starting values for the chosen color.
-- Continuously writes the current 6 values to /tmp/hsv_<color>.log
-  so another process can read them while you tune.
-- Press ESC (with the image window focused) to finish; values print here too.
-"""
+"""Interactive HSV trackbar tuner.
+Usage: ./venv/bin/python hsv_tune.py green"""
 import sys
 import cv2
 import numpy as np
@@ -26,7 +16,7 @@ if color not in PRESETS:
     sys.exit(1)
 
 out_path = f'/tmp/hsv_{color}.log'
-open(out_path, 'w').close()  # truncate
+open(out_path, 'w').close()  # clear old values
 
 cap = cv2.VideoCapture(0)
 
@@ -35,8 +25,8 @@ def nothing(arg):
     pass
 
 
-# takes an image, and a lower and upper bound
-# returns only the parts of the image in bounds
+# mask image to HSV bounds
+# show only in range pixels
 def only_color(frame, color_ranges, morph):
     h, s, v, h1, s1, v1 = color_ranges
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -52,7 +42,7 @@ cv2.namedWindow('image')
 for key in ('h', 's', 'v', 'h1', 's1', 'v1'):
     cv2.createTrackbar(key, 'image', PRESETS[color][key], 255, nothing)
 
-print(f'Tuning "{color}" — adjust trackbars until ONLY the {color} block is white in the mask.')
+print(f'Tuning "{color}" - adjust trackbars until ONLY the {color} block is white in the mask.')
 print('Press ESC to finish. Values are being saved to', out_path)
 
 # main loop of the program
@@ -73,7 +63,7 @@ while True:
     cv2.imshow('img', img)
     cv2.imshow('image', mask)
 
-    # save current values continuously so they can be read while tuning
+    # save values while tuning
     with open(out_path, 'w') as f:
         f.write(f'{h},{s},{v},{h1},{s1},{v1}\n')
 
