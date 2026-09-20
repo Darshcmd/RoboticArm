@@ -1,4 +1,4 @@
-# Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
+# Colour-Based Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
 
 <div align="center">
 
