@@ -1,7 +1,8 @@
 # Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
 
-<img src="/Media/roboticarm.jpeg">
-</img>
+<div align="center">
+  <img src="/Media/roboticarm.jpeg" alt="Robotic Arm Layout" width="60%">
+</div>
 
 ---
 
