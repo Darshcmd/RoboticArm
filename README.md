@@ -1,6 +1,9 @@
 # Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
 
-https://www.youtube.com/watch?v=PDEdxRVkMdo
+<video width="100%" controls>
+  <source src="./Media/demonstration.mp4">
+  Demonstration Video
+</video>
 
 ---
 
@@ -40,14 +43,6 @@ A few things I think set this apart from the original:
 - The original had no face handling, so if I leaned into the camera my face could get picked up as a marker. This one blanks the face out of every mask, which makes it far more reliable when I'm close to the camera.
 - The original had one HSV tuner script. I have two — a manual trackbar one for fine control and a fully automatic one for quick recalibration when the lighting changes. That matters because colour tracking is the weak point of this whole approach; if the bounds are wrong nothing else works.
 - The original drove servos directly from the Arduino's PWM pins. This one uses a PCA9685, which is the standard way people drive multiple servos now — cleaner, more channels, and it leaves the Arduino free to do other things.
-
----
-
-## Demonstration
-
-Here the arm in action — the vision pipeline tracking my arm markers and driving all five servos in real time:
-
-https://www.youtube.com/watch?v=PDEdxRVkMdo
 
 ---
 
