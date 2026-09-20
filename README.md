@@ -1,7 +1,7 @@
 # Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
 
 <video width="100%" controls>
-  <source src="./Media/demonstration.mp4">
+  <source src="/Media/demonstration.mp4">
   Demonstration Video
 </video>
 
