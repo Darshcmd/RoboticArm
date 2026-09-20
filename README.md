@@ -1,8 +1,7 @@
 # Gesture-Controlled 5-DOF Robotic Arm using Computer Vision
 
-<video src="/Media/demonstration.mp4" width="100%" controls>
-  Your browser does not support the video tag. You can <a href="/Media/demonstration.mp4">download the video here</a>.
-</video>
+<img src="/Media/roboticarm.jpeg">
+</img>
 
 ---
 
